@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS bleibt unverändert */
         :root {
             --primary: #0a0a14;
             --secondary: #001a33;
@@ -744,6 +743,171 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* Neue Popup-Stile mit Scrollbarkeit */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto; /* Ermöglicht Scrollen im Overlay */
+        }
+
+        .popup-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 166, 251, 0.3);
+            position: relative;
+            animation: popupOpen 0.4s ease-out;
+            max-height: 90vh; /* Maximale Höhe */
+            overflow-y: auto; /* Scrollbalken bei Bedarf */
+        }
+
+        @keyframes popupOpen {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--accent-light);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10; /* Über dem Inhalt */
+            background: rgba(12, 20, 36, 0.9); /* Hintergrund für bessere Sichtbarkeit */
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-close:hover {
+            color: white;
+            background: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .popup-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .popup-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .popup-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .popup-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        .popup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 166, 251, 0.2);
+        }
+
+        .form-button {
+            margin-top: 10px;
+        }
+        
+        .popup-benefits {
+            background: rgba(0, 166, 251, 0.1);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 25px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .popup-benefits-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .popup-benefits-list {
+            list-style: none;
+            padding-left: 10px;
+        }
+        
+        .popup-benefits-list li {
+            margin-bottom: 12px;
+            padding-left: 28px;
+            position: relative;
+            opacity: 0.9;
+        }
+        
+        .popup-benefits-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* Neue Stile für Sprachauswahl */
+        .current-language {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
     </style>
 </head>
 <body>
@@ -756,39 +920,41 @@
             
             <div class="nav-container">
                 <nav class="nav-links">
-                    <a href="#technology" class="nav-link">Technologie</a>
-                    <a href="#ecosystem" class="nav-link">Ökosystem</a>
-                    <a href="#roadmap" class="nav-link">Roadmap</a>
-                    <a href="#team" class="nav-link">Team</a>
-                    <a href="#contact" class="nav-link">Kontakt</a>
+                    <a href="#technology" class="nav-link" data-translate="nav_technology">Technologie</a>
+                    <a href="#ecosystem" class="nav-link" data-translate="nav_ecosystem">Ökosystem</a>
+                    <a href="#roadmap" class="nav-link" data-translate="nav_roadmap">Roadmap</a>
+                    <a href="#team" class="nav-link" data-translate="nav_team">Team</a>
+                    <a href="#contact" class="nav-link" data-translate="nav_contact">Kontakt</a>
                 </nav>
                 
                 <div class="language-selector">
                     <button class="language-button">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNDAgMjQiPjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2RkMDAwMCIvPjxyZWN0IHk9IjQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZkZTAwIi8+PHJlY3QgeT0iMTIiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4IiBmaWxsPSIjMDAwIi8+PC9zdmc+" class="language-flag">
-                        Deutsch
+                        <span class="current-language">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNDAgMjQiPjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2RkMDAwMCIvPjxyZWN0IHk9IjQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZkZTAwIi8+PHJlY3QgeT0iMTIiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4IiBmaWxsPSIjMDAwIi8+PC9zdmc+" class="language-flag">
+                            <span data-translate="language_de">Deutsch</span>
+                        </span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="language-dropdown">
-                        <a href="#" class="language-option">
+                        <a href="#" class="language-option" data-lang="de">
                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNDAgMjQiPjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2RkMDAwMCIvPjxyZWN0IHk9IjQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZkZTAwIi8+PHJlY3QgeT0iMTIiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4IiBmaWxsPSIjMDAwIi8+PC9zdmc+" class="language-flag">
-                            Deutsch
+                            <span data-translate="language_de">Deutsch</span>
                         </a>
-                        <a href="#" class="language-option">
+                        <a href="#" class="language-option" data-lang="en">
                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNjAgMzAiPjxkZWZzPjxjbGlwUGF0aCBpZD0icyI+PHBhdGggZD0iTTAsMHZzMjBoMzBWMHoiLz48L2NsaXBQYXRoPjxjbGlwUGF0aCBpZD0idCI+PHBhdGggZD0iTTMwLDE1aDMwdjE1eiBtMCwwdjE1aDMweiBtLTMwLDBIMHYxNXoiIGZpbGw9IiNmZmYiLz48L2NsaXBQYXRoPjwvZGVmcz48cGF0aCBkPSJNMzAsMTVIMHYxNUg2MFYxNXoiIGNsaXAtcGF0aD0idXJsKCNzKSIgZmlsbD0iIzAwMjQ3OSIvPjxnIGNsaXAtcGF0aD0idXJsKCN0KSI+PHBhdGggZD0iTTMwLDBIMHYzMEg2MFYweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0wLDB2MzBoNjBWMHoiIGNsaXAtcGF0aD0idXJsKCNzKSIgZmlsbD0iI2MxMDIyZSIvPjxwYXRoIGQ9Ik0xOCwyMy41bC0zLjEzLTIuMDZsMS4yLTQuMDZsLTMuMTItMi4xNGgzLjg2TDE4LDEybDEuMywzLjIzaDMuODZsLTMuMTIsMi4xNGwxLjIsNC4wNk0xOCwxNi44OWwtMS4wOCwxLjY3TDE4LDE5LjNsMS4wOC0xLjc0TDIwLjI0LDE4bC0xLjA4LTEuNjciIGZpbGw9IiNmZmYiLz48L2c+PC9zdmc+" class="language-flag">
-                            English
+                            <span data-translate="language_en">English</span>
                         </a>
-                        <a href="#" class="language-option">
+                        <a href="#" class="language-option" data-lang="pl">
                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNjAgMzAiPjxkZWZzPjxtYXNrIGlkPSJhIiB4PSIwIiB5PSIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMzAiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMCIgZmlsbD0iI2ZmZiIvPjwvbWFzaz48L2RlZnM+PHBhdGggZD0iTTAsMHYzMGg2MFYweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0wLDB2MzBoNjBWMHoiIG1hc2s9InVybCgjYSkiIGZpbGw9IiNjMTAyMkUiLz48cGF0aCBkPSJNMzAsMTVIMHYxNUg2MFYxNXoiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+" class="language-flag">
-                            Polski
+                            <span data-translate="language_pl">Polski</span>
                         </a>
-                        <a href="#" class="language-option">
+                        <a href="#" class="language-option" data-lang="tr">
                             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNjAgMzAiPjxkZWZzPjxtYXNrIGlkPSJhIiB4PSIwIiB5PSIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMzAiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMCIgZmlsbD0iI2ZmZiIvPjwvbWFzaz48L2RlZnM+PHBhdGggZD0iTTAsMHYzMGg2MFYweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0wLDB2MzBoNjBWMHoiIG1hc2s9InVybCgjYSkiIGZpbGw9IiNjMTAyMkUiLz48Y2lyY2xlIGN4PSIyMCIgY3k9IjE1IiByPSI4IiBmaWxsPSIjZTYzYjI4IiBtYXNrPSJ1cmwoI2EpIi8+PGNpcmNsZSBjeD0iMjYiIGN5PSIxNSIgcj0iMiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==" class="language-flag">
-                            Türkçe
+                            <span data-translate="language_tr">Türkçe</span>
                         </a>
-                        <a href="#" class="language-option">
-                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNjAgMzAiPjxkZWZzPjxtYXNrIGlkPSJhIiB4PSIwIiB5PSIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMzAiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMCIgZmlsbD0iI2ZmZiIvPjwvbWFzaz48L2RlZnM+PHBhdGggZD0iTTAsMHYzMGg2MFYweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0wLDB2MzBoNjBWMHoiIG1hc2s9InVybCgjYSkiIGZpbGw9IiNjMTAyMkUiLz48cGF0aCBkPSJNMjAsMTVIMHYxNUg0MFYxNXoiIGZpbGw9IiMwMDIiIG1hc2s9InVybCgjYSkiLz48cGF0aCBkPSJNMzAsMTVIMjB2MTVoMTBWMzBoMjBWMjBINDBWMTVIMzB6IiBmaWxsPSIjZGIwOTM3IiBtYXNrPSJ1cmwoI2EpIi8+PC9zdmc+" class="language-flag">
-                            Русский
+                        <a href="#" class="language-option" data-lang="ru">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgNjAgMzAiPjxkZWZzPjxtYXNrIGlkPSJhIiB4PSIwIiB5PSIwIiB3aWR0aD0iNjAiIGhlaWdodD0iMzAiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHg9IjAiIHk�IjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMCIgZmlsbD0iI2ZmZiIvPjwvbWFzaz48L2RlZnM+PHBhdGggZD0iTTAsMHYzMGg2MFYweiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0wLDB2MzBoNjBWMHoiIG1hc2s9InVybCgjYSkiIGZpbGw9IiNjMTAyMkUiLz48cGF0aCBkPSJNMjAsMTVIMHYxNUg0MFYxNXoiIGZpbGw9IiMwMDIiIG1hc2s9InVybCgjYSkiLz48cGF0aCBkPSJNMzAsMTVIMjB2MTVoMTBWMzBoMjBWMjBINDBWMTVIMzB6IiBmaWxsPSIjZGIwOTM3IiBtYXNrPSJ1cmwoI2EpIi8+PC9zdmc+" class="language-flag">
+                            <span data-translate="language_ru">Русский</span>
                         </a>
                     </div>
                 </div>
@@ -797,17 +963,17 @@
 
         <section class="hero">
             <div class="hero-content">
-                <div class="badge">Startet am 1. August 2025</div>
-                <h1>Dezentrale Plattform für Sicherheit, Geschwindigkeit & integriertes Ökosystem</h1>
-                <p class="hero-subtitle">
+                <div class="badge" data-translate="hero_badge">Startet am 1. August 2025</div>
+                <h1 data-translate="hero_title">Dezentrale Plattform für Sicherheit, Geschwindigkeit & integriertes Ökosystem</h1>
+                <p class="hero-subtitle" data-translate="hero_subtitle">
                     CTC Blockchain löst Kernprobleme bestehender Technologien - Skalierbarkeit, Transaktionsgeschwindigkeit und Zugänglichkeit - ohne Kompromisse bei der Sicherheit. Mit DPoS-Konsens, UTXO-Modell und Merkle-Bäumen für maximale Effizienz.
                 </p>
                 <div class="cta-group">
                     <a href="CTC_Blockchain_Whitepaper_komplett.pdf" target="_blank" class="btn btn-primary">
-                        <i class="fas fa-file-alt"></i> Whitepaper lesen
+                        <i class="fas fa-file-alt"></i> <span data-translate="whitepaper_btn">Whitepaper lesen</span>
                     </a>
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-envelope"></i> Updates erhalten
+                    <button class="btn btn-secondary" id="open-updates">
+                        <i class="fas fa-envelope"></i> <span data-translate="updates_btn">Updates erhalten</span>
                     </button>
                 </div>
             </div>
@@ -815,25 +981,25 @@
 
         <section class="countdown-section">
             <div class="section-header">
-                <h2 class="section-title">Countdown zum Start</h2>
-                <p class="section-subtitle">Die Zukunft der dezentralen Blockchain beginnt am 1. August 2025</p>
+                <h2 class="section-title" data-translate="countdown_title">Countdown zum Start</h2>
+                <p class="section-subtitle" data-translate="countdown_subtitle">Die Zukunft der dezentralen Blockchain beginnt am 1. August 2025</p>
             </div>
             <div class="countdown">
                 <div class="countdown-item">
                     <div class="countdown-value" id="days">00</div>
-                    <div class="countdown-label">Tage</div>
+                    <div class="countdown-label" data-translate="days_label">Tage</div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-value" id="hours">00</div>
-                    <div class="countdown-label">Stunden</div>
+                    <div class="countdown-label" data-translate="hours_label">Stunden</div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-value" id="minutes">00</div>
-                    <div class="countdown-label">Minuten</div>
+                    <div class="countdown-label" data-translate="minutes_label">Minuten</div>
                 </div>
                 <div class="countdown-item">
                     <div class="countdown-value" id="seconds">00</div>
-                    <div class="countdown-label">Sekunden</div>
+                    <div class="countdown-label" data-translate="seconds_label">Sekunden</div>
                 </div>
             </div>
         </section>
@@ -843,135 +1009,135 @@
                 <div class="feature-icon">
                     <i class="fas fa-people-arrows"></i>
                 </div>
-                <h3 class="feature-title">DPoS-Konsens</h3>
-                <p class="feature-desc">Effizienter Konsensmechanismus mit gewählten Validatoren für hohe Geschwindigkeit und Dezentralisierung.</p>
+                <h3 class="feature-title" data-translate="feature1_title">DPoS-Konsens</h3>
+                <p class="feature-desc" data-translate="feature1_desc">Effizienter Konsensmechanismus mit gewählten Validatoren für hohe Geschwindigkeit und Dezentralisierung.</p>
                 <ul class="feature-list">
-                    <li>Gewählte Validatoren für schnelle Blockproduktion</li>
-                    <li>Dezentralisierung durch Community-Wahlen</li>
-                    <li>Slashing-Mechanismus gegen böswilliges Verhalten</li>
-                    <li>Belohnungssystem für Validatoren</li>
+                    <li data-translate="feature1_li1">Gewählte Validatoren für schnelle Blockproduktion</li>
+                    <li data-translate="feature1_li2">Dezentralisierung durch Community-Wahlen</li>
+                    <li data-translate="feature1_li3">Slashing-Mechanismus gegen böswilliges Verhalten</li>
+                    <li data-translate="feature1_li4">Belohnungssystem für Validatoren</li>
                 </ul>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="fas fa-coins"></i>
                 </div>
-                <h3 class="feature-title">CTC Coin</h3>
-                <p class="feature-desc">Der native Token mit limitiertem Vorrat und automatischem Halving-Mechanismus.</p>
+                <h3 class="feature-title" data-translate="feature2_title">CTC Coin</h3>
+                <p class="feature-desc" data-translate="feature2_desc">Der native Token mit limitiertem Vorrat und automatischem Halving-Mechanismus.</p>
                 <ul class="feature-list">
-                    <li>Max. Supply: 100.000.000.000 CTC</li>
-                    <li>8 Dezimalstellen (1 Mikro-CTC = 0.00000001)</li>
-                    <li>Automatisches Halving alle 200.000 Blöcke</li>
-                    <li>Primäres Tauschmittel & Staking-Asset</li>
+                    <li data-translate="feature2_li1">Max. Supply: 100.000.000.000 CTC</li>
+                    <li data-translate="feature2_li2">8 Dezimalstellen (1 Mikro-CTC = 0.00000001)</li>
+                    <li data-translate="feature2_li3">Automatisches Halving alle 200.000 Blöcke</li>
+                    <li data-translate="feature2_li4">Primäres Tauschmittel & Staking-Asset</li>
                 </ul>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h3 class="feature-title">Sicherheitsarchitektur</h3>
-                <p class="feature-desc">Mehrschichtiges Sicherheitskonzept für vertrauenswürdige Transaktionen.</p>
+                <h3 class="feature-title" data-translate="feature3_title">Sicherheitsarchitektur</h3>
+                <p class="feature-desc" data-translate="feature3_desc">Mehrschichtiges Sicherheitskonzept für vertrauenswürdige Transaktionen.</p>
                 <ul class="feature-list">
-                    <li>UTXO-Modell gegen Double Spending</li>
-                    <li>Merkle-Bäume für effiziente Verifikation</li>
-                    <li>SHA-256 & ECDSA/EdDSA Kryptographie</li>
-                    <li>Kontinuierliche Sicherheitsaudits</li>
+                    <li data-translate="feature3_li1">UTXO-Modell gegen Double Spending</li>
+                    <li data-translate="feature3_li2">Merkle-Bäume für effiziente Verifikation</li>
+                    <li data-translate="feature3_li3">SHA-256 & ECDSA/EdDSA Kryptographie</li>
+                    <li data-translate="feature3_li4">Kontinuierliche Sicherheitsaudits</li>
                 </ul>
             </div>
         </section>
 
         <section class="stats-section">
             <div class="section-header">
-                <h2 class="section-title">Technische Spezifikationen</h2>
-                <p class="section-subtitle">Entworfen für Dezentralisierung und Effizienz</p>
+                <h2 class="section-title" data-translate="stats_title">Technische Spezifikationen</h2>
+                <p class="section-subtitle" data-translate="stats_subtitle">Entworfen für Dezentralisierung und Effizienz</p>
             </div>
             <div class="stats-grid">
                 <div class="stat">
                     <div class="stat-value">100 Mrd.</div>
-                    <div class="stat-label">Max. Supply</div>
+                    <div class="stat-label" data-translate="stat1_label">Max. Supply</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value">8</div>
-                    <div class="stat-label">Dezimalstellen</div>
+                    <div class="stat-label" data-translate="stat2_label">Dezimalstellen</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value">200.000</div>
-                    <div class="stat-label">Halving-Intervall</div>
+                    <div class="stat-label" data-translate="stat3_label">Halving-Intervall</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value">DPoS</div>
-                    <div class="stat-label">Konsensmechanismus</div>
+                    <div class="stat-label" data-translate="stat4_label">Konsensmechanismus</div>
                 </div>
             </div>
         </section>
 
         <section class="ecosystem" id="ecosystem">
             <div class="ecosystem-header">
-                <h2 class="section-title">Integriertes Ökosystem</h2>
-                <p class="section-subtitle">Eine umfassende Plattform für digitale Assets und Interaktionen</p>
+                <h2 class="section-title" data-translate="ecosystem_title">Integriertes Ökosystem</h2>
+                <p class="section-subtitle" data-translate="ecosystem_subtitle">Eine umfassende Plattform für digitale Assets und Interaktionen</p>
             </div>
             <div class="ecosystem-cards">
                 <div class="ecosystem-card">
                     <div class="ecosystem-icon">
                         <i class="fas fa-wallet"></i>
                     </div>
-                    <h3 class="ecosystem-title">Universelle Asset-Verwaltung</h3>
-                    <p class="ecosystem-desc">Verwalten Sie CTC und alle anderen Krypto-Assets in einer sicheren Wallet mit Multi-Chain-Unterstützung.</p>
+                    <h3 class="ecosystem-title" data-translate="ecosystem1_title">Universelle Asset-Verwaltung</h3>
+                    <p class="ecosystem-desc" data-translate="ecosystem1_desc">Verwalten Sie CTC und alle anderen Krypto-Assets in einer sicheren Wallet mit Multi-Chain-Unterstützung.</p>
                 </div>
                 <div class="ecosystem-card">
                     <div class="ecosystem-icon">
                         <i class="fas fa-comments"></i>
                     </div>
-                    <h3 class="ecosystem-title">Sichere Kommunikation</h3>
-                    <p class="ecosystem-desc">Ende-zu-Ende-verschlüsselte Nachrichtenfunktion für private Interaktionen im Ökosystem.</p>
+                    <h3 class="ecosystem-title" data-translate="ecosystem2_title">Sichere Kommunikation</h3>
+                    <p class="ecosystem-desc" data-translate="ecosystem2_desc">Ende-zu-Ende-verschlüsselte Nachrichtenfunktion für private Interaktionen im Ökosystem.</p>
                 </div>
                 <div class="ecosystem-card">
                     <div class="ecosystem-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3 class="ecosystem-title">Community-Hub</h3>
-                    <p class="ecosystem-desc">Nachrichten-Aggregator, Veranstaltungen und Diskussionen in einer integrierten Umgebung.</p>
+                    <h3 class="ecosystem-title" data-translate="ecosystem3_title">Community-Hub</h3>
+                    <p class="ecosystem-desc" data-translate="ecosystem3_desc">Nachrichten-Aggregator, Veranstaltungen und Diskussionen in einer integrierten Umgebung.</p>
                 </div>
             </div>
         </section>
 
         <section class="roadmap" id="roadmap">
             <div class="section-header">
-                <h2 class="section-title">Entwicklungs-Roadmap</h2>
-                <p class="section-subtitle">Unser strategischer Weg zur dezentralen Zukunft</p>
+                <h2 class="section-title" data-translate="roadmap_title">Entwicklungs-Roadmap</h2>
+                <p class="section-subtitle" data-translate="roadmap_subtitle">Unser strategischer Weg zur dezentralen Zukunft</p>
             </div>
             <div class="roadmap-container">
                 <div class="roadmap-item">
-                    <div class="roadmap-date">1. August 2025</div>
-                    <h3 class="roadmap-title">Kern-Blockchain-Start</h3>
-                    <p class="roadmap-desc">Produktionsreife Blockchain mit Kernfunktionen.</p>
+                    <div class="roadmap-date" data-translate="roadmap1_date">1. August 2025</div>
+                    <h3 class="roadmap-title" data-translate="roadmap1_title">Kern-Blockchain-Start</h3>
+                    <p class="roadmap-desc" data-translate="roadmap1_desc">Produktionsreife Blockchain mit Kernfunktionen.</p>
                     <ul class="roadmap-features">
-                        <li>DPoS-Konsensmechanismus</li>
-                        <li>Vollständiges UTXO-Modell</li>
-                        <li>Merkle-Baum-Integration</li>
-                        <li>CTC Coin Tokenomics</li>
-                        <li>Full Node-Software für PCs/Raspberry Pis</li>
+                        <li data-translate="roadmap1_li1">DPoS-Konsensmechanismus</li>
+                        <li data-translate="roadmap1_li2">Vollständiges UTXO-Modell</li>
+                        <li data-translate="roadmap1_li3">Merkle-Baum-Integration</li>
+                        <li data-translate="roadmap1_li4">CTC Coin Tokenomics</li>
+                        <li data-translate="roadmap1_li5">Full Node-Software für PCs/Raspberry Pis</li>
                     </ul>
                 </div>
                 <div class="roadmap-item">
-                    <div class="roadmap-date">Nach Phase 1</div>
-                    <h3 class="roadmap-title">Ökosystem-Erweiterungen</h3>
-                    <p class="roadmap-desc">Aufbau des integrierten digitalen Ökosystems.</p>
+                    <div class="roadmap-date" data-translate="roadmap2_date">Nach Phase 1</div>
+                    <h3 class="roadmap-title" data-translate="roadmap2_title">Ökosystem-Erweiterungen</h3>
+                    <p class="roadmap-desc" data-translate="roadmap2_desc">Aufbau des integrierten digitalen Ökosystems.</p>
                     <ul class="roadmap-features">
-                        <li>NFT-Management-Protokoll</li>
-                        <li>Ende-zu-Ende-Verschlüsselung</li>
-                        <li>DApp-Entwicklungstools</li>
-                        <li>Erweiterte Governance-Funktionen</li>
+                        <li data-translate="roadmap2_li1">NFT-Management-Protokoll</li>
+                        <li data-translate="roadmap2_li2">Ende-zu-Ende-Verschlüsselung</li>
+                        <li data-translate="roadmap2_li3">DApp-Entwicklungstools</li>
+                        <li data-translate="roadmap2_li4">Erweiterte Governance-Funktionen</li>
                     </ul>
                 </div>
             </div>
         </section>
 
         <section class="cta-section">
-            <h2 class="cta-title">Bereit für die dezentrale Zukunft?</h2>
-            <p class="cta-subtitle">Werden Sie Teil unserer Community und gestalten Sie das integrierte digitale Ökosystem mit.</p>
-            <button class="btn btn-primary">
-                <i class="fas fa-paper-plane"></i> Frühen Zugang anfordern
+            <h2 class="cta-title" data-translate="cta_title">Bereit für die dezentrale Zukunft?</h2>
+            <p class="cta-subtitle" data-translate="cta_subtitle">Werden Sie Teil unserer Community und gestalten Sie das integrierte digitale Ökosystem mit.</p>
+            <button class="btn btn-primary" id="open-access">
+                <i class="fas fa-paper-plane"></i> <span data-translate="access_btn">Frühen Zugang anfordern</span>
             </button>
         </section>
 
@@ -979,125 +1145,1061 @@
             <div class="footer-grid">
                 <div class="footer-column">
                     <h3>CTC Blockchain</h3>
-                    <p style="opacity: 0.7; line-height: 1.8; margin-bottom: 20px;">Eine dezentrale Plattform für Sicherheit, Geschwindigkeit und ein integriertes digitales Ökosystem.</p>
+                    <p style="opacity: 0.7; line-height: 1.8; margin-bottom: 20px;" data-translate="footer_desc">Eine dezentrale Plattform für Sicherheit, Geschwindigkeit und ein integriertes digitales Ökosystem.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-github"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
-                    <h3>Technologie</h3>
+                    <h3 data-translate="footer_tech">Technologie</h3>
                     <ul class="footer-links">
-                        <li><a href="#technology">DPoS-Konsens</a></li>
-                        <li><a href="#technology">UTXO-Modell</a></li>
-                        <li><a href="#technology">Sicherheitsprinzipien</a></li>
-                        <li><a href="#technology">Merkle-Bäume</a></li>
-                        <li><a href="#technology">Tokenomics</a></li>
+                        <li><a href="#technology" data-translate="footer_tech1">DPoS-Konsens</a></li>
+                        <li><a href="#technology" data-translate="footer_tech2">UTXO-Modell</a></li>
+                        <li><a href="#technology" data-translate="footer_tech3">Sicherheitsprinzipien</a></li>
+                        <li><a href="#technology" data-translate="footer_tech4">Merkle-Bäume</a></li>
+                        <li><a href="#technology" data-translate="footer_tech5">Tokenomics</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Entwickler</h3>
+                    <h3 data-translate="footer_dev">Entwickler</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Dokumentation</a></li>
-                        <li><a href="#">GitHub Repository</a></li>
-                        <li><a href="#">Testnet-Zugang</a></li>
-                        <li><a href="#">Node-Implementierung</a></li>
-                        <li><a href="#">Bug-Bounty</a></li>
+                        <li><a href="#" data-translate="footer_dev1">Dokumentation</a></li>
+                        <li><a href="#" data-translate="footer_dev2">GitHub Repository</a></li>
+                        <li><a href="#" data-translate="footer_dev3">Node-Implementierung</a></li>
+                        <li><a href="#" data-translate="footer_dev4">Downloads</a></li>
                     </ul>
                 </div>
                 <div class="footer-column" id="contact">
-                    <h3>Unternehmen</h3>
+                    <h3 data-translate="footer_company">Unternehmen</h3>
                     <ul class="footer-links">
-                        <li><a href="#" id="team">Über uns</a></li>
-                        <li><a href="#team">Team</a></li>
-                        <li><a href="#">Karriere</a></li>
-                        <li><a href="#">Partner</a></li>
-                        <li><a href="#contact">Kontakt</a></li>
+                        <li><a href="#team" data-translate="footer_company1">Team</a></li>
+                        <li><a href="#" data-translate="footer_company2">Partner</a></li>
+                        <li><a href="#contact" data-translate="footer_company3">Kontakt</a></li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                &copy; 2025 CTC Blockchain Technologies. Alle Rechte vorbehalten. | Whitepaper v1.0 | <a href="CTC_Blockchain_Whitepaper_komplett.pdf" style="color: inherit; text-decoration: underline;">Haftungsausschluss</a>
+                &copy; 2025 CTC Blockchain Technologies. <span data-translate="copyright">Alle Rechte vorbehalten.</span> | <span data-translate="whitepaper_label">Whitepaper v1.0</span> | <a href="CTC_Blockchain_Whitepaper_komplett.pdf" style="color: inherit; text-decoration: underline;" data-translate="disclaimer">Haftungsausschluss</a>
             </div>
         </footer>
     </div>
 
+    <!-- Popup für Updates -->
+    <div class="popup-overlay" id="updates-popup">
+        <div class="popup-content">
+            <span class="popup-close">&times;</span>
+            <div class="popup-header">
+                <div class="popup-icon">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <h2 class="popup-title" data-translate="popup1_title">Exklusive Updates erhalten</h2>
+                <p class="popup-subtitle" data-translate="popup1_subtitle">
+                    Bleiben Sie auf dem Laufenden mit den neuesten Entwicklungen, Produktankündigen und Community-News der CTC Blockchain.
+                </p>
+            </div>
+            
+            <form class="popup-form" id="updates-form">
+                <div class="form-group">
+                    <label class="form-label" for="updates-name" data-translate="name_label">Name</label>
+                    <input type="text" id="updates-name" class="form-input" placeholder="" data-placeholder="name_placeholder" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="updates-email" data-translate="email_label">E-Mail</label>
+                    <input type="email" id="updates-email" class="form-input" placeholder="" data-placeholder="email_placeholder" required>
+                </div>
+                
+                <div class="popup-benefits">
+                    <h3 class="popup-benefits-title">
+                        <i class="fas fa-gift"></i> <span data-translate="popup1_benefits_title">Was Sie erhalten:</span>
+                    </h3>
+                    <ul class="popup-benefits-list">
+                        <li data-translate="popup1_benefit1">Frühzeitige Ankündigungen zu neuen Features</li>
+                        <li data-translate="popup1_benefit2">Exklusive Einblicke in die Entwicklung</li>
+                        <li data-translate="popup1_benefit3">Einladungen zu virtuellen Events</li>
+                        <li data-translate="popup1_benefit4">Wichtige Sicherheitsupdates</li>
+                    </ul>
+                </div>
+                
+                <button type="submit" class="btn btn-primary form-button">
+                    <i class="fas fa-paper-plane"></i> <span data-translate="subscribe_btn">Jetzt anmelden</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Popup für frühen Zugang -->
+    <div class="popup-overlay" id="access-popup">
+        <div class="popup-content">
+            <span class="popup-close">&times;</span>
+            <div class="popup-header">
+                <div class="popup-icon">
+                    <i class="fas fa-unlock-alt"></i>
+                </div>
+                <h2 class="popup-title" data-translate="popup2_title">Frühen Zugang anfordern</h2>
+                <p class="popup-subtitle" data-translate="popup2_subtitle">
+                    Als Early Adopter erhalten Sie exklusiven Zugang zur Testphase und können die Zukunft der CTC Blockchain mitgestalten.
+                </p>
+            </div>
+            
+            <form class="popup-form" id="access-form">
+                <div class="form-group">
+                    <label class="form-label" for="access-name" data-translate="name_label">Name</label>
+                    <input type="text" id="access-name" class="form-input" placeholder="" data-placeholder="name_placeholder" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="access-email" data-translate="email_label">E-Mail</label>
+                    <input type="email" id="access-email" class="form-input" placeholder="" data-placeholder="email_placeholder" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="access-role" data-translate="role_label">Ihre Hauptrolle</label>
+                    <select id="access-role" class="form-input" required>
+                        <option value="" disabled selected data-translate="role_select">Bitte auswählen</option>
+                        <option value="developer" data-translate="role_developer">Blockchain-Entwickler</option>
+                        <option value="investor" data-translate="role_investor">Investor</option>
+                        <option value="validator" data-translate="role_validator">Validator/Node-Betreiber</option>
+                        <option value="business" data-translate="role_business">Unternehmensvertreter</option>
+                        <option value="community" data-translate="role_community">Community-Mitglied</option>
+                    </select>
+                </div>
+                
+                <div class="popup-benefits">
+                    <h3 class="popup-benefits-title">
+                        <i class="fas fa-star"></i> <span data-translate="popup2_benefits_title">Ihre Vorteile:</span>
+                    </h3>
+                    <ul class="popup-benefits-list">
+                        <li data-translate="popup2_benefit1">Früher Zugang zur Testumgebung</li>
+                        <li data-translate="popup2_benefit2">Persönlicher Support vom Entwicklungsteam</li>
+                        <li data-translate="popup2_benefit3">Möglichkeit zur Mitgestaltung der Plattform</li>
+                        <li data-translate="popup2_benefit4">Exklusive Einführungsveranstaltungen</li>
+                        <li data-translate="popup2_benefit5">Spezielle Incentives für Early Adopter</li>
+                    </ul>
+                </div>
+                
+                <button type="submit" class="btn btn-primary form-button">
+                    <i class="fas fa-rocket"></i> <span data-translate="request_btn">Zugang anfordern</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script>
+        // Vollständiges Übersetzungsobjekt mit allen Sprachen
+        const translations = {
+            de: {
+                // Allgemein
+                language_de: "Deutsch",
+                language_en: "English",
+                language_pl: "Polski",
+                language_tr: "Türkçe",
+                language_ru: "Русский",
+                
+                // Navigation
+                nav_technology: "Technologie",
+                nav_ecosystem: "Ökosystem",
+                nav_roadmap: "Roadmap",
+                nav_team: "Team",
+                nav_contact: "Kontakt",
+                
+                // Hero-Bereich
+                hero_badge: "Startet am 1. August 2025",
+                hero_title: "Dezentrale Plattform für Sicherheit, Geschwindigkeit & integriertes Ökosystem",
+                hero_subtitle: "CTC Blockchain löst Kernprobleme bestehender Technologien - Skalierbarkeit, Transaktionsgeschwindigkeit und Zugänglichkeit - ohne Kompromisse bei der Sicherheit. Mit DPoS-Konsens, UTXO-Modell und Merkle-Bäumen für maximale Effizienz.",
+                whitepaper_btn: "Whitepaper lesen",
+                updates_btn: "Updates erhalten",
+                
+                // Countdown
+                countdown_title: "Countdown zum Start",
+                countdown_subtitle: "Die Zukunft der dezentralen Blockchain beginnt am 1. August 2025",
+                days_label: "Tage",
+                hours_label: "Stunden",
+                minutes_label: "Minuten",
+                seconds_label: "Sekunden",
+                
+                // Features
+                feature1_title: "DPoS-Konsens",
+                feature1_desc: "Effizienter Konsensmechanismus mit gewählten Validatoren für hohe Geschwindigkeit und Dezentralisierung.",
+                feature1_li1: "Gewählte Validatoren für schnelle Blockproduktion",
+                feature1_li2: "Dezentralisierung durch Community-Wahlen",
+                feature1_li3: "Slashing-Mechanismus gegen böswilliges Verhalten",
+                feature1_li4: "Belohnungssystem für Validatoren",
+                
+                feature2_title: "CTC Coin",
+                feature2_desc: "Der native Token mit limitiertem Vorrat und automatischem Halving-Mechanismus.",
+                feature2_li1: "Max. Supply: 100.000.000.000 CTC",
+                feature2_li2: "8 Dezimalstellen (1 Mikro-CTC = 0.00000001)",
+                feature2_li3: "Automatisches Halving alle 200.000 Blöcke",
+                feature2_li4: "Primäres Tauschmittel & Staking-Asset",
+                
+                feature3_title: "Sicherheitsarchitektur",
+                feature3_desc: "Mehrschichtiges Sicherheitskonzept für vertrauenswürdige Transaktionen.",
+                feature3_li1: "UTXO-Modell gegen Double Spending",
+                feature3_li2: "Merkle-Bäume für effiziente Verifikation",
+                feature3_li3: "SHA-256 & ECDSA/EdDSA Kryptographie",
+                feature3_li4: "Kontinuierliche Sicherheitsaudits",
+                
+                // Stats
+                stats_title: "Technische Spezifikationen",
+                stats_subtitle: "Entworfen für Dezentralisierung und Effizienz",
+                stat1_label: "Max. Supply",
+                stat2_label: "Dezimalstellen",
+                stat3_label: "Halving-Intervall",
+                stat4_label: "Konsensmechanismus",
+                
+                // Ecosystem
+                ecosystem_title: "Integriertes Ökosystem",
+                ecosystem_subtitle: "Eine umfassende Plattform für digitale Assets und Interaktionen",
+                ecosystem1_title: "Universelle Asset-Verwaltung",
+                ecosystem1_desc: "Verwalten Sie CTC und alle anderen Krypto-Assets in einer sicheren Wallet mit Multi-Chain-Unterstützung.",
+                ecosystem2_title: "Sichere Kommunikation",
+                ecosystem2_desc: "Ende-zu-Ende-verschlüsselte Nachrichtenfunktion für private Interaktionen im Ökosystem.",
+                ecosystem3_title: "Community-Hub",
+                ecosystem3_desc: "Nachrichten-Aggregator, Veranstaltungen und Diskussionen in einer integrierten Umgebung.",
+                
+                // Roadmap
+                roadmap_title: "Entwicklungs-Roadmap",
+                roadmap_subtitle: "Unser strategischer Weg zur dezentralen Zukunft",
+                roadmap1_date: "1. August 2025",
+                roadmap1_title: "Kern-Blockchain-Start",
+                roadmap1_desc: "Produktionsreife Blockchain mit Kernfunktionen.",
+                roadmap1_li1: "DPoS-Konsensmechanismus",
+                roadmap1_li2: "Vollständiges UTXO-Modell",
+                roadmap1_li3: "Merkle-Baum-Integration",
+                roadmap1_li4: "CTC Coin Tokenomics",
+                roadmap1_li5: "Full Node-Software für PCs/Raspberry Pis",
+                
+                roadmap2_date: "Nach Phase 1",
+                roadmap2_title: "Ökosystem-Erweiterungen",
+                roadmap2_desc: "Aufbau des integrierten digitalen Ökosystems.",
+                roadmap2_li1: "NFT-Management-Protokoll",
+                roadmap2_li2: "Ende-zu-Ende-Verschlüsselung",
+                roadmap2_li3: "DApp-Entwicklungstools",
+                roadmap2_li4: "Erweiterte Governance-Funktionen",
+                
+                // CTA
+                cta_title: "Bereit für die dezentrale Zukunft?",
+                cta_subtitle: "Werden Sie Teil unserer Community und gestalten Sie das integrierte digitale Ökosystem mit.",
+                access_btn: "Frühen Zugang anfordern",
+                
+                // Footer
+                footer_desc: "Eine dezentrale Plattform für Sicherheit, Geschwindigkeit und ein integriertes digitales Ökosystem.",
+                footer_tech: "Technologie",
+                footer_tech1: "DPoS-Konsens",
+                footer_tech2: "UTXO-Modell",
+                footer_tech3: "Sicherheitsprinzipien",
+                footer_tech4: "Merkle-Bäume",
+                footer_tech5: "Tokenomics",
+                
+                footer_dev: "Entwickler",
+                footer_dev1: "Dokumentation",
+                footer_dev2: "GitHub Repository",
+                footer_dev3: "Node-Implementierung",
+                footer_dev4: "Downloads",
+                
+                footer_company: "Unternehmen",
+                footer_company1: "Team",
+                footer_company2: "Partner",
+                footer_company3: "Kontakt",
+                
+                copyright: "Alle Rechte vorbehalten.",
+                whitepaper_label: "Whitepaper v1.0",
+                disclaimer: "Haftungsausschluss",
+                
+                // Popups
+                popup1_title: "Exklusive Updates erhalten",
+                popup1_subtitle: "Bleiben Sie auf dem Laufenden mit den neuesten Entwicklungen, Produktankündigen und Community-News der CTC Blockchain.",
+                name_label: "Name",
+                name_placeholder: "Vor- und Nachname",
+                email_label: "E-Mail",
+                email_placeholder: "ihre@email.de",
+                popup1_benefits_title: "Was Sie erhalten:",
+                popup1_benefit1: "Frühzeitige Ankündigungen zu neuen Features",
+                popup1_benefit2: "Exklusive Einblicke in die Entwicklung",
+                popup1_benefit3: "Einladungen zu virtuellen Events",
+                popup1_benefit4: "Wichtige Sicherheitsupdates",
+                subscribe_btn: "Jetzt anmelden",
+                
+                popup2_title: "Frühen Zugang anfordern",
+                popup2_subtitle: "Als Early Adopter erhalten Sie exklusiven Zugang zur Testphase und können die Zukunft der CTC Blockchain mitgestalten.",
+                role_label: "Ihre Hauptrolle",
+                role_select: "Bitte auswählen",
+                role_developer: "Blockchain-Entwickler",
+                role_investor: "Investor",
+                role_validator: "Validator/Node-Betreiber",
+                role_business: "Unternehmensvertreter",
+                role_community: "Community-Mitglied",
+                popup2_benefits_title: "Ihre Vorteile:",
+                popup2_benefit1: "Früher Zugang zur Testumgebung",
+                popup2_benefit2: "Persönlicher Support vom Entwicklungsteam",
+                popup2_benefit3: "Möglichkeit zur Mitgestaltung der Plattform",
+                popup2_benefit4: "Exklusive Einführungsveranstaltungen",
+                popup2_benefit5: "Spezielle Incentives für Early Adopter",
+                request_btn: "Zugang anfordern"
+            },
+            en: {
+                // Englische Übersetzungen
+                language_de: "German",
+                language_en: "English",
+                language_pl: "Polish",
+                language_tr: "Turkish",
+                language_ru: "Russian",
+                
+                nav_technology: "Technology",
+                nav_ecosystem: "Ecosystem",
+                nav_roadmap: "Roadmap",
+                nav_team: "Team",
+                nav_contact: "Contact",
+                
+                hero_badge: "Starts on August 1, 2025",
+                hero_title: "Decentralized Platform for Security, Speed & Integrated Ecosystem",
+                hero_subtitle: "CTC Blockchain solves core problems of existing technologies - scalability, transaction speed and accessibility - without compromising security. With DPoS consensus, UTXO model and Merkle trees for maximum efficiency.",
+                whitepaper_btn: "Read Whitepaper",
+                updates_btn: "Get Updates",
+                
+                countdown_title: "Countdown to Launch",
+                countdown_subtitle: "The future of decentralized blockchain begins on August 1, 2025",
+                days_label: "Days",
+                hours_label: "Hours",
+                minutes_label: "Minutes",
+                seconds_label: "Seconds",
+                
+                feature1_title: "DPoS Consensus",
+                feature1_desc: "Efficient consensus mechanism with elected validators for high speed and decentralization.",
+                feature1_li1: "Elected validators for fast block production",
+                feature1_li2: "Decentralization through community elections",
+                feature1_li3: "Slashing mechanism against malicious behavior",
+                feature1_li4: "Reward system for validators",
+                
+                feature2_title: "CTC Coin",
+                feature2_desc: "Native token with limited supply and automatic halving mechanism.",
+                feature2_li1: "Max. Supply: 100,000,000,000 CTC",
+                feature2_li2: "8 Decimal places (1 Micro-CTC = 0.00000001)",
+                feature2_li3: "Automatic halving every 200,000 blocks",
+                feature2_li4: "Primary exchange medium & staking asset",
+                
+                feature3_title: "Security Architecture",
+                feature3_desc: "Multi-layered security concept for trusted transactions.",
+                feature3_li1: "UTXO model against double spending",
+                feature3_li2: "Merkle trees for efficient verification",
+                feature3_li3: "SHA-256 & ECDSA/EdDSA cryptography",
+                feature3_li4: "Continuous security audits",
+                
+                stats_title: "Technical Specifications",
+                stats_subtitle: "Designed for decentralization and efficiency",
+                stat1_label: "Max. Supply",
+                stat2_label: "Decimal Places",
+                stat3_label: "Halving Interval",
+                stat4_label: "Consensus Mechanism",
+                
+                ecosystem_title: "Integrated Ecosystem",
+                ecosystem_subtitle: "A comprehensive platform for digital assets and interactions",
+                ecosystem1_title: "Universal Asset Management",
+                ecosystem1_desc: "Manage CTC and all other crypto assets in a secure wallet with multi-chain support.",
+                ecosystem2_title: "Secure Communication",
+                ecosystem2_desc: "End-to-end encrypted messaging for private interactions within the ecosystem.",
+                ecosystem3_title: "Community Hub",
+                ecosystem3_desc: "News aggregator, events and discussions in an integrated environment.",
+                
+                roadmap_title: "Development Roadmap",
+                roadmap_subtitle: "Our strategic path to a decentralized future",
+                roadmap1_date: "August 1, 2025",
+                roadmap1_title: "Core Blockchain Launch",
+                roadmap1_desc: "Production-ready blockchain with core features.",
+                roadmap1_li1: "DPoS consensus mechanism",
+                roadmap1_li2: "Full UTXO model",
+                roadmap1_li3: "Merkle tree integration",
+                roadmap1_li4: "CTC Coin tokenomics",
+                roadmap1_li5: "Full Node software for PCs/Raspberry Pis",
+                
+                roadmap2_date: "After Phase 1",
+                roadmap2_title: "Ecosystem Expansions",
+                roadmap2_desc: "Building the integrated digital ecosystem.",
+                roadmap2_li1: "NFT management protocol",
+                roadmap2_li2: "End-to-end encryption",
+                roadmap2_li3: "DApp development tools",
+                roadmap2_li4: "Advanced governance features",
+                
+                cta_title: "Ready for the decentralized future?",
+                cta_subtitle: "Become part of our community and help shape the integrated digital ecosystem.",
+                access_btn: "Request Early Access",
+                
+                footer_desc: "A decentralized platform for security, speed and an integrated digital ecosystem.",
+                footer_tech: "Technology",
+                footer_tech1: "DPoS Consensus",
+                footer_tech2: "UTXO Model",
+                footer_tech3: "Security Principles",
+                footer_tech4: "Merkle Trees",
+                footer_tech5: "Tokenomics",
+                
+                footer_dev: "Developers",
+                footer_dev1: "Documentation",
+                footer_dev2: "GitHub Repository",
+                footer_dev3: "Node Implementation",
+                footer_dev4: "Downloads",
+                
+                footer_company: "Company",
+                footer_company1: "Team",
+                footer_company2: "Partners",
+                footer_company3: "Contact",
+                
+                copyright: "All rights reserved.",
+                whitepaper_label: "Whitepaper v1.0",
+                disclaimer: "Disclaimer",
+                
+                popup1_title: "Get Exclusive Updates",
+                popup1_subtitle: "Stay updated with the latest developments, product announcements and community news from CTC Blockchain.",
+                name_label: "Name",
+                name_placeholder: "First and Last Name",
+                email_label: "Email",
+                email_placeholder: "your@email.com",
+                popup1_benefits_title: "What you'll get:",
+                popup1_benefit1: "Early announcements of new features",
+                popup1_benefit2: "Exclusive insights into development",
+                popup1_benefit3: "Invitations to virtual events",
+                popup1_benefit4: "Important security updates",
+                subscribe_btn: "Subscribe Now",
+                
+                popup2_title: "Request Early Access",
+                popup2_subtitle: "As an early adopter, you get exclusive access to the test phase and can help shape the future of CTC Blockchain.",
+                role_label: "Your Primary Role",
+                role_select: "Please select",
+                role_developer: "Blockchain Developer",
+                role_investor: "Investor",
+                role_validator: "Validator/Node Operator",
+                role_business: "Business Representative",
+                role_community: "Community Member",
+                popup2_benefits_title: "Your Benefits:",
+                popup2_benefit1: "Early access to test environment",
+                popup2_benefit2: "Personal support from development team",
+                popup2_benefit3: "Opportunity to co-create the platform",
+                popup2_benefit4: "Exclusive onboarding events",
+                popup2_benefit5: "Special incentives for early adopters",
+                request_btn: "Request Access"
+            },
+            pl: {
+                // Polnische Übersetzungen
+                language_de: "Niemiecki",
+                language_en: "Angielski",
+                language_pl: "Polski",
+                language_tr: "Turecki",
+                language_ru: "Rosyjski",
+                
+                nav_technology: "Technologia",
+                nav_ecosystem: "Ekosystem",
+                nav_roadmap: "Plan rozwoju",
+                nav_team: "Zespół",
+                nav_contact: "Kontakt",
+                
+                hero_badge: "Rozpoczyna się 1 sierpnia 2025",
+                hero_title: "Zdecentralizowana platforma bezpieczeństwa, szybkości i zintegrowanego ekosystemu",
+                hero_subtitle: "CTC Blockchain rozwiązuje podstawowe problemy istniejących technologii - skalowalność, szybkość transakcji i dostępność - bez kompromisów w zakresie bezpieczeństwa. Dzięki konsensusowi DPoS, modelowi UTXO i drzewom Merkle dla maksymalnej wydajności.",
+                whitepaper_btn: "Przeczytaj whitepaper",
+                updates_btn: "Otrzymuj aktualizacje",
+                
+                countdown_title: "Odliczanie do startu",
+                countdown_subtitle: "Przyszłość zdecentralizowanej blockchain rozpoczyna się 1 sierpnia 2025",
+                days_label: "Dni",
+                hours_label: "Godziny",
+                minutes_label: "Minuty",
+                seconds_label: "Sekundy",
+                
+                feature1_title: "Konsensus DPoS",
+                feature1_desc: "Wydajny mechanizm konsensusu z wybranymi walidatorami zapewniający wysoką prędkość i decentralizację.",
+                feature1_li1: "Wybrani walidatorzy dla szybkiej produkcji bloków",
+                feature1_li2: "Decentralizacja poprzez wybory społeczności",
+                feature1_li3: "Mechanizm slashingu przeciwko złośliwemu zachowaniu",
+                feature1_li4: "System nagród dla walidatorów",
+                
+                feature2_title: "CTC Coin",
+                feature2_desc: "Natywny token z ograniczoną podażą i automatycznym mechanizmem halvingu.",
+                feature2_li1: "Maks. podaż: 100 000 000 000 CTC",
+                feature2_li2: "8 miejsc po przecinku (1 Mikro-CTC = 0,00000001)",
+                feature2_li3: "Automatyczny halving co 200 000 bloków",
+                feature2_li4: "Podstawowy środek wymiany i aktywo stakingowe",
+                
+                feature3_title: "Architektura bezpieczeństwa",
+                feature3_desc: "Wielowarstwowa koncepcja bezpieczeństwa dla zaufanych transakcji.",
+                feature3_li1: "Model UTXO przeciwko podwójnemu wydatkowaniu",
+                feature3_li2: "Drzewa Merkle do efektywnej weryfikacji",
+                feature3_li3: "Kryptografia SHA-256 & ECDSA/EdDSA",
+                feature3_li4: "Ciągłe audyty bezpieczeństwa",
+                
+                stats_title: "Specyfikacje techniczne",
+                stats_subtitle: "Zaprojektowane dla decentralizacji i wydajności",
+                stat1_label: "Maks. podaż",
+                stat2_label: "Miejsca dziesiętne",
+                stat3_label: "Interwał halvingu",
+                stat4_label: "Mechanizm konsensusu",
+                
+                ecosystem_title: "Zintegrowany ekosystem",
+                ecosystem_subtitle: "Kompleksowa platforma dla aktywów cyfrowych i interakcji",
+                ecosystem1_title: "Uniwersalne zarządzanie aktywami",
+                ecosystem1_desc: "Zarządzaj CTC i wszystkimi innymi aktywami krypto w bezpiecznym portfelu z obsługą wielu łańcuchów.",
+                ecosystem2_title: "Bezpieczna komunikacja",
+                ecosystem2_desc: "Funkcja zaszyfrowanych wiadomości end-to-end do prywatnych interakcji w ekosystemie.",
+                ecosystem3_title: "Centrum społeczności",
+                ecosystem3_desc: "Agregator wiadomości, wydarzenia i dyskusje w zintegrowanym środowisku.",
+                
+                roadmap_title: "Plan rozwoju",
+                roadmap_subtitle: "Nasza strategiczna ścieżka do zdecentralizowanej przyszłości",
+                roadmap1_date: "1 sierpnia 2025",
+                roadmap1_title: "Start podstawowego blockchaina",
+                roadmap1_desc: "Gotowy do produkcji blockchain z podstawowymi funkcjami.",
+                roadmap1_li1: "Mechanizm konsensusu DPoS",
+                roadmap1_li2: "Pełny model UTXO",
+                roadmap1_li3: "Integracja drzew Merkle",
+                roadmap1_li4: "Tokenomics CTC Coin",
+                roadmap1_li5: "Oprogramowanie Full Node dla PC/Raspberry Pi",
+                
+                roadmap2_date: "Po fazie 1",
+                roadmap2_title: "Rozszerzenia ekosystemu",
+                roadmap2_desc: "Budowa zintegrowanego cyfrowego ekosystemu.",
+                roadmap2_li1: "Protokół zarządzania NFT",
+                roadmap2_li2: "Szyfrowanie end-to-end",
+                roadmap2_li3: "Narzędzia do rozwoju DApp",
+                roadmap2_li4: "Zaawansowane funkcje zarządzania",
+                
+                cta_title: "Gotowy na zdecentralizowaną przyszłość?",
+                cta_subtitle: "Dołącz do naszej społeczności i pomóż kształtować zintegrowany cyfrowy ekosystem.",
+                access_btn: "Poproś o wczesny dostęp",
+                
+                footer_desc: "Zdecentralizowana platforma zapewniająca bezpieczeństwo, szybkość i zintegrowany cyfrowy ekosystem.",
+                footer_tech: "Technologia",
+                footer_tech1: "Konsensus DPoS",
+                footer_tech2: "Model UTXO",
+                footer_tech3: "Zasady bezpieczeństwa",
+                footer_tech4: "Drzewa Merkle",
+                footer_tech5: "Tokenomics",
+                
+                footer_dev: "Deweloperzy",
+                footer_dev1: "Dokumentacja",
+                footer_dev2: "Repozytorium GitHub",
+                footer_dev3: "Implementacja węzła",
+                footer_dev4: "Pliki do pobrania",
+                
+                footer_company: "Firma",
+                footer_company1: "Zespół",
+                footer_company2: "Partnerzy",
+                footer_company3: "Kontakt",
+                
+                copyright: "Wszelkie prawa zastrzeżone.",
+                whitepaper_label: "Whitepaper v1.0",
+                disclaimer: "Zastrzeżenie",
+                
+                popup1_title: "Otrzymuj ekskluzywne aktualizacje",
+                popup1_subtitle: "Bądź na bieżąco z najnowszymi rozwojami, zapowiedziami produktów i wiadomościami społeczności CTC Blockchain.",
+                name_label: "Imię i nazwisko",
+                name_placeholder: "Imię i nazwisko",
+                email_label: "E-mail",
+                email_placeholder: "twój@email.pl",
+                popup1_benefits_title: "Co otrzymasz:",
+                popup1_benefit1: "Wczesne zapowiedzi nowych funkcji",
+                popup1_benefit2: "Ekskluzywne spojrzenie na rozwój",
+                popup1_benefit3: "Zaproszenia na wydarzenia wirtualne",
+                popup1_benefit4: "Ważne aktualizacje bezpieczeństwa",
+                subscribe_btn: "Zapisz się teraz",
+                
+                popup2_title: "Poproś o wczesny dostęp",
+                popup2_subtitle: "Jako early adopter otrzymasz wyłączny dostęp do fazy testowej i możesz pomóc kształtować przyszłość CTC Blockchain.",
+                role_label: "Twoja główna rola",
+                role_select: "Proszę wybrać",
+                role_developer: "Deweloper blockchain",
+                role_investor: "Inwestor",
+                role_validator: "Walidator/Operator węzła",
+                role_business: "Przedstawiciel firmy",
+                role_community: "Członek społeczności",
+                popup2_benefits_title: "Twoje korzyści:",
+                popup2_benefit1: "Wczesny dostęp do środowiska testowego",
+                popup2_benefit2: "Osobiste wsparcie od zespołu deweloperskiego",
+                popup2_benefit3: "Możliwość współtworzenia platformy",
+                popup2_benefit4: "Ekskluzywne wydarzenia wprowadzające",
+                popup2_benefit5: "Specjalne zachęty dla early adopterów",
+                request_btn: "Poproś o dostęp"
+            },
+            tr: {
+                // Türkische Übersetzungen
+                language_de: "Almanca",
+                language_en: "İngilizce",
+                language_pl: "Lehçe",
+                language_tr: "Türkçe",
+                language_ru: "Rusça",
+                
+                nav_technology: "Teknoloji",
+                nav_ecosystem: "Ekosistem",
+                nav_roadmap: "Yol Haritası",
+                nav_team: "Takım",
+                nav_contact: "İletişim",
+                
+                hero_badge: "1 Ağustos 2025'te Başlıyor",
+                hero_title: "Güvenlik, Hız ve Entegre Ekosistem için Merkezi Olmayan Platform",
+                hero_subtitle: "CTC Blockchain, güvenlikten ödün vermeden mevcut teknolojilerin temel sorunlarını - ölçeklenebilirlik, işlem hızı ve erişilebilirlik - çözer. Maksimum verimlilik için DPoS konsensüsü, UTXO modeli ve Merkle ağaçları ile.",
+                whitepaper_btn: "Teknik Dokümanı Oku",
+                updates_btn: "Güncellemeleri Al",
+                
+                countdown_title: "Başlangıç Geri Sayımı",
+                countdown_subtitle: "Merkezi olmayan blockchain'in geleceği 1 Ağustos 2025'te başlıyor",
+                days_label: "Gün",
+                hours_label: "Saat",
+                minutes_label: "Dakika",
+                seconds_label: "Saniye",
+                
+                feature1_title: "DPoS Konsensüsü",
+                feature1_desc: "Yüksek hız ve merkeziyetsizlik için seçilmiş doğrulayıcılarla verimli konsensüs mekanizması.",
+                feature1_li1: "Hızlı blok üretimi için seçilmiş doğrulayıcılar",
+                feature1_li2: "Topluluk seçimleriyle merkeziyetsizlik",
+                feature1_li3: "Kötü niyetli davranışlara karşı kesinti mekanizması",
+                feature1_li4: "Doğrulayıcılar için ödül sistemi",
+                
+                feature2_title: "CTC Coin",
+                feature2_desc: "Sınırlı arz ve otomatik yarılanma mekanizmasına sahip yerel token.",
+                feature2_li1: "Maks. Arz: 100.000.000.000 CTC",
+                feature2_li2: "8 Ondalık basamak (1 Mikro-CTC = 0.00000001)",
+                feature2_li3: "Her 200.000 blokta otomatik yarılanma",
+                feature2_li4: "Birincil değişim aracı ve stake varlığı",
+                
+                feature3_title: "Güvenlik Mimarisi",
+                feature3_desc: "Güvenilir işlemler için çok katmanlı güvenlik konsepti.",
+                feature3_li1: "Çift harcamaya karşı UTXO modeli",
+                feature3_li2: "Verimli doğrulama için Merkle ağaçları",
+                feature3_li3: "SHA-256 & ECDSA/EdDSA kriptografisi",
+                feature3_li4: "Sürekli güvenlik denetimleri",
+                
+                stats_title: "Teknik Özellikler",
+                stats_subtitle: "Merkeziyetsizlik ve verimlilik için tasarlandı",
+                stat1_label: "Maks. Arz",
+                stat2_label: "Ondalık Basamaklar",
+                stat3_label: "Yarılanma Aralığı",
+                stat4_label: "Konsensüs Mekanizması",
+                
+                ecosystem_title: "Entegre Ekosistem",
+                ecosystem_subtitle: "Dijital varlıklar ve etkileşimler için kapsamlı bir platform",
+                ecosystem1_title: "Evrensel Varlık Yönetimi",
+                ecosystem1_desc: "Çoklu zincir desteği ile güvenli bir cüzdanda CTC ve diğer tüm kripto varlıklarını yönetin.",
+                ecosystem2_title: "Güvenli İletişim",
+                ecosystem2_desc: "Ekosistem içinde özel etkileşimler için uçtan uca şifreli mesajlaşma işlevi.",
+                ecosystem3_title: "Topluluk Merkezi",
+                ecosystem3_desc: "Entegre bir ortamda haber toplayıcı, etkinlikler ve tartışmalar.",
+                
+                roadmap_title: "Geliştirme Yol Haritası",
+                roadmap_subtitle: "Merkeziyetsiz bir geleceğe giden stratejik yolumuz",
+                roadmap1_date: "1 Ağustos 2025",
+                roadmap1_title: "Temel Blockchain Başlangıcı",
+                roadmap1_desc: "Temel özelliklerle üretime hazır blockchain.",
+                roadmap1_li1: "DPoS konsensüs mekanizması",
+                roadmap1_li2: "Tam UTXO modeli",
+                roadmap1_li3: "Merkle ağacı entegrasyonu",
+                roadmap1_li4: "CTC Coin tokenomics",
+                roadmap1_li5: "Bilgisayarlar/Raspberry Pi'ler için Full Node yazılımı",
+                
+                roadmap2_date: "1. Aşamadan Sonra",
+                roadmap2_title: "Ekosistem Genişletmeleri",
+                roadmap2_desc: "Entegre dijital ekosistemin inşası.",
+                roadmap2_li1: "NFT yönetim protokolü",
+                roadmap2_li2: "Uçtan uca şifreleme",
+                roadmap2_li3: "DApp geliştirme araçları",
+                roadmap2_li4: "Gelişmiş yönetişim özellikleri",
+                
+                cta_title: "Merkeziyetsiz geleceğe hazır mısınız?",
+                cta_subtitle: "Topluluğumuzun bir parçası olun ve entegre dijital ekosistemi şekillendirmeye yardımcı olun.",
+                access_btn: "Erken Erişim Talep Et",
+                
+                footer_desc: "Güvenlik, hız ve entegre bir dijital ekosistem için merkeziyetsiz bir platform.",
+                footer_tech: "Teknoloji",
+                footer_tech1: "DPoS Konsensüsü",
+                footer_tech2: "UTXO Modeli",
+                footer_tech3: "Güvenlik İlkeleri",
+                footer_tech4: "Merkle Ağaçları",
+                footer_tech5: "Tokenomics",
+                
+                footer_dev: "Geliştiriciler",
+                footer_dev1: "Dokümantasyon",
+                footer_dev2: "GitHub Deposu",
+                footer_dev3: "Düğüm Uygulaması",
+                footer_dev4: "İndirmeler",
+                
+                footer_company: "Şirket",
+                footer_company1: "Takım",
+                footer_company2: "Ortaklar",
+                footer_company3: "İletişim",
+                
+                copyright: "Tüm hakları saklıdır.",
+                whitepaper_label: "Teknik Doküman v1.0",
+                disclaimer: "Sorumluluk Reddi",
+                
+                popup1_title: "Özel Güncellemeler Alın",
+                popup1_subtitle: "CTC Blockchain'in en son gelişmeleri, ürün duyuruları ve topluluk haberleriyle güncel kalın.",
+                name_label: "Ad",
+                name_placeholder: "Adınız ve Soyadınız",
+                email_label: "E-posta",
+                email_placeholder: "sizin@email.com",
+                popup1_benefits_title: "Neler alacaksınız:",
+                popup1_benefit1: "Yeni özelliklere dair erken duyurular",
+                popup1_benefit2: "Geliştirme sürecine özel içgörüler",
+                popup1_benefit3: "Sanal etkinliklere davetiyeler",
+                popup1_benefit4: "Önemli güvenlik güncellemeleri",
+                subscribe_btn: "Şimdi Abone Ol",
+                
+                popup2_title: "Erken Erişim Talep Edin",
+                popup2_subtitle: "Erken benimseyen biri olarak, test aşamasına özel erişim elde edersiniz ve CTC Blockchain'in geleceğini şekillendirmeye yardımcı olabilirsiniz.",
+                role_label: "Ana Rolünüz",
+                role_select: "Lütfen seçin",
+                role_developer: "Blockchain Geliştirici",
+                role_investor: "Yatırımcı",
+                role_validator: "Doğrulayıcı/Düğüm Operatörü",
+                role_business: "İş Temsilcisi",
+                role_community: "Topluluk Üyesi",
+                popup2_benefits_title: "Avantajlarınız:",
+                popup2_benefit1: "Test ortamına erken erişim",
+                popup2_benefit2: "Geliştirme ekibinden kişisel destek",
+                popup2_benefit3: "Platformu birlikte oluşturma fırsatı",
+                popup2_benefit4: "Özel oryantasyon etkinlikleri",
+                popup2_benefit5: "Erken benimseyenler için özel teşvikler",
+                request_btn: "Erişim Talep Et"
+            },
+            ru: {
+                // Russische Übersetzungen
+                language_de: "Немецкий",
+                language_en: "Английский",
+                language_pl: "Польский",
+                language_tr: "Турецкий",
+                language_ru: "Русский",
+                
+                nav_technology: "Технология",
+                nav_ecosystem: "Экосистема",
+                nav_roadmap: "Дорожная карта",
+                nav_team: "Команда",
+                nav_contact: "Контакт",
+                
+                hero_badge: "Запуск 1 августа 2025 года",
+                hero_title: "Децентрализованная платформа для безопасности, скорости и интегрированной экосистемы",
+                hero_subtitle: "CTC Blockchain решает ключевые проблемы существующих технологий - масштабируемость, скорость транзакций и доступность - без ущерба для безопасности. С консенсусом DPoS, моделью UTXO и деревьями Меркла для максимальной эффективности.",
+                whitepaper_btn: "Читать технический документ",
+                updates_btn: "Получать обновления",
+                
+                countdown_title: "Обратный отсчет до запуска",
+                countdown_subtitle: "Будущее децентрализованного блокчейна начинается 1 августа 2025 года",
+                days_label: "Дни",
+                hours_label: "Часы",
+                minutes_label: "Минуты",
+                seconds_label: "Секунды",
+                
+                feature1_title: "Консенсус DPoS",
+                feature1_desc: "Эффективный механизм консенсуса с избранными валидаторами для высокой скорости и децентрализации.",
+                feature1_li1: "Избранные валидаторы для быстрого производства блоков",
+                feature1_li2: "Децентрализация через выборы сообщества",
+                feature1_li3: "Механизм слэшинга против злонамеренного поведения",
+                feature1_li4: "Система вознаграждений для валидаторов",
+                
+                feature2_title: "CTC Coin",
+                feature2_desc: "Нативный токен с ограниченным предложением и автоматическим механизмом халвинга.",
+                feature2_li1: "Макс. предложение: 100 000 000 000 CTC",
+                feature2_li2: "8 знаков после запятой (1 Микро-CTC = 0,00000001)",
+                feature2_li3: "Автоматический халвинг каждые 200 000 блоков",
+                feature2_li4: "Основное средство обмена и актив для стейкинга",
+                
+                feature3_title: "Архитектура безопасности",
+                feature3_desc: "Многоуровневая концепция безопасности для доверенных транзакций.",
+                feature3_li1: "Модель UTXO против двойного расходования",
+                feature3_li2: "Деревья Меркла для эффективной верификации",
+                feature3_li3: "Криптография SHA-256 и ECDSA/EdDSA",
+                feature3_li4: "Непрерывные аудиты безопасности",
+                
+                stats_title: "Технические характеристики",
+                stats_subtitle: "Разработано для децентрализации и эффективности",
+                stat1_label: "Макс. предложение",
+                stat2_label: "Знаки после запятой",
+                stat3_label: "Интервал халвинга",
+                stat4_label: "Механизм консенсуса",
+                
+                ecosystem_title: "Интегрированная экосистема",
+                ecosystem_subtitle: "Комплексная платформа для цифровых активов и взаимодействий",
+                ecosystem1_title: "Универсальное управление активами",
+                ecosystem1_desc: "Управляйте CTC и всеми другими криптоактивами в безопасном кошельке с поддержкой нескольких цепочек.",
+                ecosystem2_title: "Безопасная связь",
+                ecosystem2_desc: "Функция сквозного зашифрованного обмена сообщениями для частного взаимодействия в экосистеме.",
+                ecosystem3_title: "Центр сообщества",
+                ecosystem3_desc: "Агрегатор новостей, мероприятий и дискуссий в интегрированной среде.",
+                
+                roadmap_title: "Дорожная карта разработки",
+                roadmap_subtitle: "Наш стратегический путь к децентрализованному будущему",
+                roadmap1_date: "1 августа 2025 года",
+                roadmap1_title: "Запуск основного блокчейна",
+                roadmap1_desc: "Готовый к работе блокчейн с основными функциями.",
+                roadmap1_li1: "Механизм консенсуса DPoS",
+                roadmap1_li2: "Полная модель UTXO",
+                roadmap1_li3: "Интеграция деревьев Меркла",
+                roadmap1_li4: "Токеномика CTC Coin",
+                roadmap1_li5: "Программное обеспечение Full Node для ПК/Raspberry Pi",
+                
+                roadmap2_date: "После 1 фазы",
+                roadmap2_title: "Расширения экосистемы",
+                roadmap2_desc: "Построение интегрированной цифровой экосистемы.",
+                roadmap2_li1: "Протокол управления NFT",
+                roadmap2_li2: "Сквозное шифрование",
+                roadmap2_li3: "Инструменты разработки DApp",
+                roadmap2_li4: "Расширенные функции управления",
+                
+                cta_title: "Готовы к децентрализованному будущему?",
+                cta_subtitle: "Станьте частью нашего сообщества и помогите сформировать интегрированную цифровую экосистему.",
+                access_btn: "Запросить ранний доступ",
+                
+                footer_desc: "Децентрализованная платформа для безопасности, скорости и интегрированной цифровой экосистемы.",
+                footer_tech: "Технология",
+                footer_tech1: "Консенсус DPoS",
+                footer_tech2: "Модель UTXO",
+                footer_tech3: "Принципы безопасности",
+                footer_tech4: "Деревья Меркла",
+                footer_tech5: "Токеномика",
+                
+                footer_dev: "Разработчики",
+                footer_dev1: "Документация",
+                footer_dev2: "Репозиторий GitHub",
+                footer_dev3: "Реализация узла",
+                footer_dev4: "Загрузки",
+                
+                footer_company: "Компания",
+                footer_company1: "Команда",
+                footer_company2: "Партнеры",
+                footer_company3: "Контакт",
+                
+                copyright: "Все права защищены.",
+                whitepaper_label: "Технический документ v1.0",
+                disclaimer: "Отказ от ответственности",
+                
+                popup1_title: "Получайте эксклюзивные обновления",
+                popup1_subtitle: "Будьте в курсе последних разработок, анонсов продуктов и новостей сообщества CTC Blockchain.",
+                name_label: "Имя",
+                name_placeholder: "Имя и фамилия",
+                email_label: "Электронная почта",
+                email_placeholder: "ваш@email.ru",
+                popup1_benefits_title: "Что вы получите:",
+                popup1_benefit1: "Ранние анонсы новых функций",
+                popup1_benefit2: "Эксклюзивные инсайты в разработку",
+                popup1_benefit3: "Приглашения на виртуальные мероприятия",
+                popup1_benefit4: "Важные обновления безопасности",
+                subscribe_btn: "Подписаться сейчас",
+                
+                popup2_title: "Запросите ранний доступ",
+                popup2_subtitle: "Как ранний последователь, вы получите эксклюзивный доступ к тестовой фазе и сможете помочь сформировать будущее CTC Blockchain.",
+                role_label: "Ваша основная роль",
+                role_select: "Пожалуйста, выберите",
+                role_developer: "Разработчик блокчейна",
+                role_investor: "Инвестор",
+                role_validator: "Валидатор/Оператор узла",
+                role_business: "Представитель бизнеса",
+                role_community: "Участник сообщества",
+                popup2_benefits_title: "Ваши преимущества:",
+                popup2_benefit1: "Ранний доступ к тестовой среде",
+                popup2_benefit2: "Персональная поддержка от команды разработчиков",
+                popup2_benefit3: "Возможность совместно создавать платформу",
+                popup2_benefit4: "Эксклюзивные вводные мероприятия",
+                popup2_benefit5: "Специальные стимулы для ранних последователей",
+                request_btn: "Запросить доступ"
+            }
+        };
+
         // Sprachauswahl-Funktionalität
         const languageButton = document.querySelector('.language-button');
         const languageDropdown = document.querySelector('.language-dropdown');
+        const currentLanguageText = document.querySelector('.current-language span');
+        const currentLanguageFlag = document.querySelector('.current-language img');
         
-        languageButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            languageDropdown.classList.toggle('show');
-        });
-        
-        // Schließen des Dropdowns, wenn außerhalb geklickt wird
-        document.addEventListener('click', (e) => {
-            if (!languageButton.contains(e.target) && !languageDropdown.contains(e.target)) {
-                languageDropdown.classList.remove('show');
-            }
-        });
-        
-        // Countdown-Funktion
-        const launchDate = new Date('August 1, 2025 00:00:00').getTime();
-        
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const timeLeft = launchDate - now;
-            
-            // Zeitberechnungen
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            
-            // Werte anzeigen
-            document.getElementById('days').innerText = days.toString().padStart(2, '0');
-            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
-        }
-        
-        // Countdown jede Sekunde aktualisieren
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-        
-        // Animation für Karten
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.feature-card, .ecosystem-card, .roadmap-item');
-            elements.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    el.style.opacity = "1";
-                    el.style.transform = "translateY(0)";
+        // Sprache setzen
+        function setLanguage(lang) {
+            // Alle Elemente mit data-translate Attribut finden
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
                 }
             });
-        };
-        
-        // Event-Listener für Scroll
-        window.addEventListener('scroll', animateOnScroll);
-        
-        // Initial aufrufen für Elemente im sichtbaren Bereich
-        animateOnScroll();
-        
-        // Menü-Ankerlinks
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+            
+            // Platzhalter in Input-Feldern übersetzen
+            document.querySelectorAll('[data-placeholder]').forEach(input => {
+                const placeholderKey = input.getAttribute('data-placeholder');
+                if (translations[lang] && translations[lang][placeholderKey]) {
+                    input.placeholder = translations[lang][placeholderKey];
                 }
+            });
+            
+            // Options in Select-Elementen übersetzen
+            document.querySelectorAll('option[data-translate]').forEach(option => {
+                const key = option.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    option.textContent = translations[lang][key];
+                }
+            });
+            
+            // Aktuelle Sprache in UI anzeigen
+            if (translations[lang] && translations[lang]['language_' + lang]) {
+                currentLanguageText.textContent = translations[lang]['language_' + lang];
+                
+                // Flagge aktualisieren
+                const flagImg = document.querySelector(`.language-option[data-lang="${lang}"] img`);
+                if (flagImg) {
+                    currentLanguageFlag.src = flagImg.src;
+                }
+            }
+            
+            // Sprache speichern
+            localStorage.setItem('preferredLanguage', lang);
+            document.documentElement.lang = lang;
+        }
+        
+        // Sprache beim Laden setzen
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'de';
+            setLanguage(savedLanguage);
+            
+            // Sprachauswahl-Event
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = option.getAttribute('data-lang');
+                    setLanguage(lang);
+                    languageDropdown.classList.remove('show');
+                });
+            });
+            
+            // Sprachauswahl-Funktionalität
+            languageButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+            
+            // Schließen des Dropdowns, wenn außerhalb geklickt wird
+            document.addEventListener('click', (e) => {
+                if (!languageButton.contains(e.target) && !languageDropdown.contains(e.target)) {
+                    languageDropdown.classList.remove('show');
+                }
+            });
+            
+            // Countdown-Funktion
+            const launchDate = new Date('August 1, 2025 00:00:00').getTime();
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = launchDate - now;
+                
+                // Zeitberechnungen
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                // Werte anzeigen
+                document.getElementById('days').innerText = days.toString().padStart(2, '0');
+                document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+            }
+            
+            // Countdown jede Sekunde aktualisieren
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+            
+            // Animation für Karten
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.feature-card, .ecosystem-card, .roadmap-item');
+                elements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        el.style.opacity = "1";
+                        el.style.transform = "translateY(0)";
+                    }
+                });
+            };
+            
+            // Event-Listener für Scroll
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Initial aufrufen für Elemente im sichtbaren Bereich
+            animateOnScroll();
+            
+            // Menü-Ankerlinks
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Popup-Funktionalität
+            const updatesPopup = document.getElementById('updates-popup');
+            const accessPopup = document.getElementById('access-popup');
+            const openUpdates = document.getElementById('open-updates');
+            const openAccess = document.getElementById('open-access');
+            const closeButtons = document.querySelectorAll('.popup-close');
+            
+            // Öffnen der Popups
+            openUpdates.addEventListener('click', () => {
+                updatesPopup.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            openAccess.addEventListener('click', () => {
+                accessPopup.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Schließen der Popups
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    updatesPopup.style.display = 'none';
+                    accessPopup.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+            });
+            
+            // Schließen bei Klick außerhalb des Popup-Inhalts
+            window.addEventListener('click', (e) => {
+                if (e.target === updatesPopup) {
+                    updatesPopup.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+                if (e.target === accessPopup) {
+                    accessPopup.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Formularverarbeitung
+            document.getElementById('updates-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('updates-name').value;
+                const email = document.getElementById('updates-email').value;
+                
+                alert(`Vielen Dank, ${name}! Sie erhalten nun exklusive Updates an ${email}.`);
+                
+                this.reset();
+                updatesPopup.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            document.getElementById('access-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('access-name').value;
+                const email = document.getElementById('access-email').value;
+                const role = document.getElementById('access-role').value;
+                
+                alert(`Vielen Dank für Ihr Interesse, ${name}! Wir haben Ihre Anfrage als ${role} erhalten und werden uns in Kürze bei ${email} melden.`);
+                
+                this.reset();
+                accessPopup.style.display = 'none';
+                document.body.style.overflow = 'auto';
             });
         });
     </script>
